@@ -1,0 +1,2 @@
+OPENAI_API_KEY="sk-n...sIS8A"
+DEEPSEEK_API_KEY="sk-...4a94"
