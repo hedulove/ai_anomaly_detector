@@ -1,0 +1,32 @@
+llm:
+  provider: deepseek
+analysis:
+  window_days: 30
+  grace_days: 2
+  custom_start: '2016-02-15'
+  custom_end: '2017-08-15'
+holidays:
+  logic: ecuador
+auth:
+  username: hduran
+  password: '123'
+server:
+  host: 127.0.0.1
+  port: 8000
+demo:
+  train_months_back: 18
+detection:
+  z_threshold: 2.5
+  iqr_factor: 1.5
+  mad_scale_factor: 0.6745
+  rolling_window_cap: 7
+  rolling_window_floor: 3
+  rolling_window_divisor: 3
+  rolling_window_fixed: null
+  rolling_detection_std_factor: 2.0
+  vote_min: 2
+chart:
+  show_std_bands: true
+  band_std_factor: 1.2
+data_explorer:
+  sample_rows: 100

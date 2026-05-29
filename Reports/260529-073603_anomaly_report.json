@@ -1,0 +1,303 @@
+{
+  "saved_at": "2026-05-29T07:36:03.540026",
+  "question": "Detect unusual patterns in store transaction counts by city",
+  "report": {
+    "title": "Anomaly Detection Report: Store Transaction Counts by City (Feb 2016 – Aug 2017)",
+    "executive_summary": "Analysis of 1,728 daily transaction records across three Ecuadorian cities (Cuenca, Quito, Guayaquil) identified 18 anomalies (1.0% of data). The anomalies are concentrated in Cuenca (7), Quito (6), and Guayaquil (5), and are primarily linked to Ecuadorian holidays, the April 2016 earthquake, payday cycles, and seasonal retail patterns. The detection employed Modified Z-Score, IQR Fences, and Rolling Window Deviation methods with a majority-vote threshold.",
+    "detection_methods": [
+      {
+        "name": "Modified Z-Score",
+        "description": "Used a threshold of 2.5 on the modified Z-score (based on median absolute deviation) to flag points deviating significantly from the median, robust to outliers."
+      },
+      {
+        "name": "IQR Fences",
+        "description": "Applied a 1.5×IQR factor to define upper and lower fences; points outside these fences were flagged as potential anomalies."
+      },
+      {
+        "name": "Rolling Window Deviation",
+        "description": "Computed a rolling mean and standard deviation with a window size of min(7, max(3, n//3)), and flagged points exceeding 2 standard deviations from the rolling mean."
+      }
+    ],
+    "anomalies_found": [
+      {
+        "date": "2016-02-26",
+        "metric_value": "187",
+        "expected_range": "105.6 – 187.0",
+        "severity": "medium",
+        "description": "Quito had a high transaction count (187) on Feb 26, 2016, possibly a residual effect of Carnival celebrations or a local promotion.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Sudden Spike"
+      },
+      {
+        "date": "2016-03-11",
+        "metric_value": "221",
+        "expected_range": "121.1 – 221.2",
+        "severity": "high",
+        "description": "Cuenca showed a high transaction count (221) on Mar 11, 2016, possibly due to pre-earthquake stockpiling or local festivities.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Sudden Spike"
+      },
+      {
+        "date": "2016-03-15",
+        "metric_value": "220",
+        "expected_range": "120.3 – 221.7",
+        "severity": "high",
+        "description": "Cuenca showed a high transaction count (220) on Mar 15, 2016, similar to Mar 11, likely related to the same pre-earthquake or local event.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Sudden Spike"
+      },
+      {
+        "date": "2016-04-19",
+        "metric_value": "189",
+        "expected_range": "90.1 – 187.6",
+        "severity": "high",
+        "description": "Quito had a high transaction count (189) on Apr 19, 2016, likely due to emergency buying or supply chain shifts after the April 16 earthquake.",
+        "flagged_by": "Modified Z-Score, IQR Fences, Rolling Window Deviation",
+        "category": "Sudden Spike"
+      },
+      {
+        "date": "2016-07-26",
+        "metric_value": "204",
+        "expected_range": "84.2 – 214.3",
+        "severity": "high",
+        "description": "Quito had a high transaction count (204) on Jul 26, 2016, possibly due to school holidays or local festivals.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Sudden Spike"
+      },
+      {
+        "date": "2016-08-22",
+        "metric_value": "200",
+        "expected_range": "93.9 – 200.7",
+        "severity": "high",
+        "description": "Quito had a high transaction count (200) on Aug 22, 2016, possibly related to Independence of Quito celebrations on Aug 10.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Sudden Spike"
+      },
+      {
+        "date": "2016-09-10",
+        "metric_value": "114",
+        "expected_range": "116.0 – 187.7",
+        "severity": "medium",
+        "description": "Cuenca had a low transaction count (114) on Sep 10, 2016, possibly due to a local holiday or store closures.",
+        "flagged_by": "Modified Z-Score, Rolling Window Deviation",
+        "category": "Unexpected Drop"
+      },
+      {
+        "date": "2016-09-23",
+        "metric_value": "210",
+        "expected_range": "103.1 – 212.4",
+        "severity": "high",
+        "description": "Guayaquil had a high transaction count (210) on Sep 23, 2016, possibly aligning with a payday or local celebration.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Sudden Spike"
+      },
+      {
+        "date": "2016-12-14",
+        "metric_value": "103",
+        "expected_range": "108.8 – 214.1",
+        "severity": "high",
+        "description": "Cuenca had a low transaction count (103) on Dec 14, 2016, possibly due to pre-Christmas shopping patterns or a local event reducing foot traffic.",
+        "flagged_by": "Modified Z-Score, IQR Fences, Rolling Window Deviation",
+        "category": "Unexpected Drop"
+      },
+      {
+        "date": "2017-01-07",
+        "metric_value": "72",
+        "expected_range": "61.6 – 173.8",
+        "severity": "high",
+        "description": "Quito had a low transaction count (72) on Jan 7, 2017, likely due to post-holiday spending reduction or inventory adjustments.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Unexpected Drop"
+      },
+      {
+        "date": "2017-02-04",
+        "metric_value": "80",
+        "expected_range": "84.4 – 154.5",
+        "severity": "medium",
+        "description": "Quito had a low transaction count (80) on Feb 4, 2017, continuing the post-New Year slowdown.",
+        "flagged_by": "Modified Z-Score, Rolling Window Deviation",
+        "category": "Unexpected Drop"
+      },
+      {
+        "date": "2017-02-17",
+        "metric_value": "222",
+        "expected_range": "125.4 – 228.3",
+        "severity": "high",
+        "description": "Cuenca had a high transaction count (222) on Feb 17, 2017, likely due to pre-Carnival stockpiling.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Sudden Spike"
+      },
+      {
+        "date": "2017-02-27",
+        "metric_value": "102",
+        "expected_range": "89.7 – 230.1",
+        "severity": "high",
+        "description": "Cuenca had a low transaction count (102) on Feb 27, 2017, likely due to the Carnival holiday dip.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Unexpected Drop"
+      },
+      {
+        "date": "2017-04-29",
+        "metric_value": "95",
+        "expected_range": "90.7 – 168.5",
+        "severity": "medium",
+        "description": "Guayaquil had a low transaction count (95) on Apr 29, 2017, likely due to the approaching Labor Day holiday reducing shopping activity.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Unexpected Drop"
+      },
+      {
+        "date": "2017-05-16",
+        "metric_value": "112",
+        "expected_range": "108.9 – 217.6",
+        "severity": "medium",
+        "description": "Cuenca had a low transaction count (112) on May 16, 2017, possibly due to a local holiday or store closures.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Unexpected Drop"
+      }
+    ],
+    "root_causes": {
+      "internal": [
+        "Operational issues such as store closures or inventory adjustments in Cuenca and Quito.",
+        "Payday cycles causing periodic spikes in transaction counts across all cities."
+      ],
+      "external": [
+        "Ecuadorian holidays: Carnival (Feb 2016, Feb 2017), Independence of Quito (Aug 10), Foundation of Cuenca (Apr 12), Battle of Pichincha (May 24), Foundation of Guayaquil (Jul 25), Labor Day (May 1).",
+        "April 2016 earthquake causing emergency buying and supply chain disruptions in Quito and Cuenca.",
+        "Seasonal patterns: summer school holidays, post-New Year spending slowdown, pre-Christmas shopping."
+      ]
+    },
+    "recommendation": "Investigate the operational causes behind the low transaction anomalies in Cuenca (Sep 10, 2016; Dec 14, 2016; May 16, 2017) and Quito (Jan 7, 2017; Feb 4, 2017) to rule out data errors or store-specific issues. For high transaction spikes, consider adjusting inventory and staffing levels around known holidays and payday periods. Incorporate a holiday calendar and earthquake impact data into future anomaly detection models to reduce false positives and improve interpretability."
+  },
+  "qa_result": {
+    "approved": true,
+    "score": 8,
+    "feedback": "Report is well-structured and thorough. Anomalies are clearly linked to plausible causes. Minor improvements could enhance clarity.",
+    "issues": [
+      "Expected ranges for some anomalies (e.g., 2016-02-26) show upper bound equal to the metric value, which may be misleading.",
+      "Root causes list holidays not explicitly matched to all anomalies (e.g., Foundation of Cuenca on Apr 12 not linked to nearby anomalies)."
+    ],
+    "improvements": [
+      "Clarify that expected range is derived from rolling statistics, not a fixed interval.",
+      "Add a table mapping each anomaly to specific holiday or event for easier verification.",
+      "Include a brief note on how holiday/grace-period exclusions were handled."
+    ]
+  },
+  "query_plan": {
+    "table": "transactions_enriched",
+    "filters": [
+      {
+        "column": "date",
+        "op": "between",
+        "value": [
+          "2016-01-18",
+          "2017-08-15"
+        ]
+      }
+    ],
+    "group_by": [
+      "date",
+      "city"
+    ],
+    "aggregations": [
+      {
+        "column": "transactions",
+        "agg": "sum",
+        "as": "total_transactions"
+      }
+    ],
+    "sort_by": [
+      {
+        "column": "date",
+        "ascending": true
+      }
+    ],
+    "metric_col": "total_transactions",
+    "date_col": "date",
+    "dimension_col": "city",
+    "explanation": "Aggregate daily transaction counts by city to detect unusual patterns in foot traffic across different cities.",
+    "context": "Normal transaction counts vary by city size and day of week; anomalies may indicate local events or operational issues."
+  },
+  "query_display_sql": "-- Data Query Agent output (pandas plan → SQL-style view)\n-- Aggregate daily transaction counts by city to detect unusual patterns in foot traffic across different cities.\n\nSELECT\n  date,\n  city,\n  SUM(transactions) AS total_transactions\nFROM transactions_enriched\nWHERE date BETWEEN '2016-01-18' AND '2017-08-15'\nGROUP BY date, city\nORDER BY date ASC\n\n-- metric_col: total_transactions\n-- date_col: date\n-- dimension_col: city\n\n-- Raw JSON plan:\n{\n  \"table\": \"transactions_enriched\",\n  \"filters\": [\n    {\n      \"column\": \"date\",\n      \"op\": \"between\",\n      \"value\": [\n        \"2016-01-18\",\n        \"2017-08-15\"\n      ]\n    }\n  ],\n  \"group_by\": [\n    \"date\",\n    \"city\"\n  ],\n  \"aggregations\": [\n    {\n      \"column\": \"transactions\",\n      \"agg\": \"sum\",\n      \"as\": \"total_transactions\"\n    }\n  ],\n  \"sort_by\": [\n    {\n      \"column\": \"date\",\n      \"ascending\": true\n    }\n  ],\n  \"metric_col\": \"total_transactions\",\n  \"date_col\": \"date\",\n  \"dimension_col\": \"city\",\n  \"explanation\": \"Aggregate daily transaction counts by city to detect unusual patterns in foot traffic across different cities.\",\n  \"context\": \"Normal transaction counts vary by city size and day of week; anomalies may indicate local events or operational issues.\"\n}",
+  "root_cause": {
+    "external_causes": [
+      {
+        "date_range": "2016-02-26",
+        "factor": "Carnival holiday period (Feb 6-10, 2016) - possible delayed effect or local event in Quito",
+        "explanation": "Quito had a high transaction count (187) on Feb 26, 2016, which may be a residual effect of Carnival celebrations or a local promotion.",
+        "confidence": "medium"
+      },
+      {
+        "date_range": "2016-03-11 to 2016-03-15",
+        "factor": "Ecuador earthquake (April 16, 2016) - pre-earthquake economic activity or local events in Cuenca",
+        "explanation": "Cuenca showed high transactions (221, 220) in mid-March 2016, possibly due to pre-earthquake stockpiling or local festivities (e.g., Foundation of Cuenca on April 12).",
+        "confidence": "medium"
+      },
+      {
+        "date_range": "2016-04-19",
+        "factor": "Post-earthquake disruption in Quito (April 16, 2016 earthquake)",
+        "explanation": "Quito had a high transaction count (189) on April 19, 2016, likely due to emergency buying or supply chain shifts after the earthquake.",
+        "confidence": "high"
+      },
+      {
+        "date_range": "2016-07-26 to 2016-08-22",
+        "factor": "Summer vacation season and possible local events in Quito",
+        "explanation": "Quito showed high transactions (204, 200) in late July/August 2016, possibly due to school holidays or local festivals (e.g., Independence of Quito on Aug 10).",
+        "confidence": "medium"
+      },
+      {
+        "date_range": "2016-09-10",
+        "factor": "Low transaction anomaly in Cuenca - possible local holiday or operational issue",
+        "explanation": "Cuenca had a low transaction count (114) on Sep 10, 2016, which may be due to a local holiday (e.g., Independence of Cuenca on Nov 3) or store closures.",
+        "confidence": "low"
+      },
+      {
+        "date_range": "2016-09-23",
+        "factor": "High transaction in Guayaquil - possible payday effect or local event",
+        "explanation": "Guayaquil had a high transaction count (210) on Sep 23, 2016, which may align with a payday (often 15th and last day of month) or a local celebration.",
+        "confidence": "medium"
+      },
+      {
+        "date_range": "2016-12-14",
+        "factor": "Low transaction in Cuenca - possible holiday season anomaly",
+        "explanation": "Cuenca had a low transaction count (103) on Dec 14, 2016, possibly due to pre-Christmas shopping patterns or a local event reducing foot traffic.",
+        "confidence": "medium"
+      },
+      {
+        "date_range": "2017-01-07 to 2017-02-04",
+        "factor": "Post-New Year slowdown in Quito",
+        "explanation": "Quito showed low transactions (72, 80) in early 2017, likely due to post-holiday spending reduction or inventory adjustments.",
+        "confidence": "high"
+      },
+      {
+        "date_range": "2017-02-17 to 2017-02-27",
+        "factor": "Carnival holiday period (Feb 27-28, 2017) - pre-Carnival buying in Cuenca",
+        "explanation": "Cuenca had high (222) and low (102) transactions around Carnival, possibly due to pre-holiday stockpiling and then a holiday dip.",
+        "confidence": "high"
+      },
+      {
+        "date_range": "2017-04-29",
+        "factor": "Low transaction in Guayaquil - possible Labor Day effect (May 1)",
+        "explanation": "Guayaquil had a low transaction count (95) on Apr 29, 2017, likely due to the approaching Labor Day holiday reducing shopping activity.",
+        "confidence": "medium"
+      },
+      {
+        "date_range": "2017-05-16",
+        "factor": "Low transaction in Cuenca - possible local event or operational issue",
+        "explanation": "Cuenca had a low transaction count (112) on May 16, 2017, which may be due to a local holiday (e.g., Battle of Pichincha on May 24) or store closures.",
+        "confidence": "low"
+      },
+      {
+        "date_range": "2017-06-24 to 2017-07-29",
+        "factor": "Summer season and possible local events in Guayaquil",
+        "explanation": "Guayaquil showed low (92) and high (209, 214) transactions in June-July 2017, possibly due to school holidays, local festivals (e.g., Foundation of Guayaquil on July 25), or payday effects.",
+        "confidence": "medium"
+      }
+    ],
+    "hypothesis": "The anomalies in Cuenca, Quito, and Guayaquil are primarily driven by Ecuadorian holidays (Carnival, Independence days), the April 2016 earthquake, payday cycles, and seasonal retail patterns, with local events and operational issues causing additional deviations."
+  },
+  "analysis_window": {
+    "start": "2016-02-15",
+    "end": "2017-08-15"
+  },
+  "anomaly_summary": "Detected 18 anomalies out of 1728 data points (1.0%). Top affected groups: {'Cuenca': 7, 'Quito': 6, 'Guayaquil': 5}. Methods: Modified Z-score (threshold=2.5), IQR (factor=1.5), Rolling (window=min(7, max(3, n//3)), std×2.0), vote≥2/3. (27 holiday/grace-period data points excluded.)"
+}

@@ -1,0 +1,16 @@
+{
+  "saved_at": "2026-05-29T07:03:54.011895",
+  "question": "q",
+  "report": {
+    "title": "t"
+  },
+  "qa_result": {
+    "approved": true,
+    "score": 8
+  },
+  "query_plan": {
+    "table": "sales"
+  },
+  "query_display_sql": "-- Data Query Agent output (pandas plan → SQL-style view)\n-- \n\nSELECT\n  *\nFROM sales\n\n-- metric_col: None\n-- date_col: None\n-- dimension_col: None\n\n-- Raw JSON plan:\n{\n  \"table\": \"sales\"\n}",
+  "root_cause": null
+}

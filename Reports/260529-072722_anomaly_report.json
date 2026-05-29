@@ -1,0 +1,255 @@
+{
+  "saved_at": "2026-05-29T07:27:22.069505",
+  "question": "Find anomalies in daily sales for store type A vs type D",
+  "report": {
+    "title": "Anomaly Detection Report: Daily Sales for Store Type A vs Type D",
+    "executive_summary": "Analysis of daily sales from 2016-02-15 to 2017-08-15 identified 10 anomalies (1.8% of data) exclusively in store type A. Anomalies include both sudden drops and spikes, primarily linked to payday cycles, holiday effects, and economic factors. No anomalies were detected in store type D.",
+    "detection_methods": [
+      {
+        "name": "Modified Z-Score",
+        "description": "Used a threshold of 2.5 with median absolute deviation (MAD) scaled by 0.6745 to detect outliers robustly."
+      },
+      {
+        "name": "IQR Fences",
+        "description": "Applied interquartile range (IQR) with a factor of 1.5 to identify points outside the lower and upper fences."
+      },
+      {
+        "name": "Rolling Window Deviation",
+        "description": "Computed rolling mean and standard deviation with a window size of min(7, max(3, n//3)) and flagged points exceeding 2 standard deviations from the mean."
+      }
+    ],
+    "anomalies_found": [
+      {
+        "date": "2016-08-31",
+        "metric_value": "663.55",
+        "expected_range": "641.83 - 1065.90",
+        "severity": "medium",
+        "description": "Sales significantly lower than rolling mean (853.87), possibly due to end-of-month payday timing shift.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Unexpected Drop"
+      },
+      {
+        "date": "2016-09-14",
+        "metric_value": "680.03",
+        "expected_range": "662.65 - 1094.02",
+        "severity": "medium",
+        "description": "Low sales (rolling mean 878.34) possibly due to post-holiday slump after Ecuador's Independence Day.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Unexpected Drop"
+      },
+      {
+        "date": "2016-11-19",
+        "metric_value": "666.63",
+        "expected_range": "635.77 - 1042.12",
+        "severity": "medium",
+        "description": "Low sales (rolling mean 838.95) possibly reflecting pre-Black Friday lull or economic downturn.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Unexpected Drop"
+      },
+      {
+        "date": "2016-12-08",
+        "metric_value": "691.85",
+        "expected_range": "683.82 - 1031.53",
+        "severity": "medium",
+        "description": "Low sales (rolling mean 857.67) possibly due to Quito Foundation Day or local holiday.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Unexpected Drop"
+      },
+      {
+        "date": "2017-01-22",
+        "metric_value": "1105.80",
+        "expected_range": "658.43 - 1186.27",
+        "severity": "high",
+        "description": "Unusually high sales (rolling mean 922.35) likely due to post-New Year promotions or payday effect.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Sudden Spike"
+      },
+      {
+        "date": "2017-01-23",
+        "metric_value": "678.99",
+        "expected_range": "675.98 - 1190.80",
+        "severity": "medium",
+        "description": "Sharp drop after previous day's spike (rolling mean 933.39), possibly a correction or local event.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Unexpected Drop"
+      },
+      {
+        "date": "2017-04-01",
+        "metric_value": "671.08",
+        "expected_range": "623.46 - 1004.52",
+        "severity": "medium",
+        "description": "Low sales (rolling mean 813.99) possibly due to April Fools' Day or weekend effect.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Unexpected Drop"
+      },
+      {
+        "date": "2017-04-27",
+        "metric_value": "1144.76",
+        "expected_range": "658.24 - 1205.64",
+        "severity": "high",
+        "description": "High sales (rolling mean 931.94) likely due to pre-Labor Day shopping or payday effect.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Sudden Spike"
+      },
+      {
+        "date": "2017-05-09",
+        "metric_value": "680.84",
+        "expected_range": "656.73 - 1131.73",
+        "severity": "medium",
+        "description": "Low sales (rolling mean 894.23) possibly post-Labor Day slump or oil price impact.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Unexpected Drop"
+      },
+      {
+        "date": "2017-07-31",
+        "metric_value": "1125.16",
+        "expected_range": "699.82 - 1131.76",
+        "severity": "high",
+        "description": "High sales (rolling mean 915.79) likely due to end-of-month payday or promotions.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Sudden Spike"
+      }
+    ],
+    "root_causes": {
+      "internal": [
+        "Payday cycle effects causing periodic spikes and drops",
+        "Post-holiday sales corrections and pre-holiday surges",
+        "Local events or holidays reducing store activity"
+      ],
+      "external": [
+        "Oil price volatility affecting consumer spending in Ecuador",
+        "Economic downturns or seasonal shopping patterns",
+        "Calendar effects (e.g., month-end, weekends)"
+      ]
+    },
+    "recommendation": "Investigate store type A's sales patterns around paydays and holidays to optimize inventory and staffing. Consider adjusting promotional timing to smooth out extreme fluctuations. Monitor economic indicators like oil prices for proactive planning."
+  },
+  "qa_result": {
+    "approved": true,
+    "score": 8,
+    "feedback": "Report is well-structured and thorough. Anomalies are clearly identified with supporting data and plausible root causes. Minor improvements could enhance clarity.",
+    "issues": [
+      "Expected range for 2017-07-31 anomaly (699.82 - 1131.76) is inconsistent with rolling_lower (699.82) and rolling_upper (1131.76) from raw data; the upper bound matches but lower bound is slightly off.",
+      "Some anomaly descriptions (e.g., 'pre-Black Friday lull' for Nov 19) are speculative without supporting evidence."
+    ],
+    "improvements": [
+      "Verify expected range calculations for consistency with raw data.",
+      "Add a brief note on how holiday/grace-period exclusions were handled.",
+      "Consider including a visualization (e.g., time series plot) to illustrate anomalies."
+    ]
+  },
+  "query_plan": {
+    "table": "sales",
+    "filters": [
+      {
+        "column": "date",
+        "op": "between",
+        "value": [
+          "2016-01-18",
+          "2017-08-15"
+        ]
+      },
+      {
+        "column": "type",
+        "op": "in",
+        "value": [
+          "A",
+          "D"
+        ]
+      }
+    ],
+    "group_by": [
+      "date",
+      "type"
+    ],
+    "aggregations": [
+      {
+        "column": "sales",
+        "agg": "sum",
+        "as": "total_sales"
+      }
+    ],
+    "sort_by": [
+      {
+        "column": "date",
+        "ascending": true
+      }
+    ],
+    "metric_col": "total_sales",
+    "date_col": "date",
+    "dimension_col": "type",
+    "explanation": "Aggregate daily sales for store types A and D separately, including a 4-week baseline before the analysis window for comparison.",
+    "context": "Normal daily sales for each store type are the typical sum of sales across all stores of that type, with patterns influenced by holidays, promotions, and economic factors."
+  },
+  "query_display_sql": "-- Data Query Agent output (pandas plan → SQL-style view)\n-- Aggregate daily sales for store types A and D separately, including a 4-week baseline before the analysis window for comparison.\n\nSELECT\n  date,\n  type,\n  SUM(sales) AS total_sales\nFROM sales\nWHERE date BETWEEN '2016-01-18' AND '2017-08-15'\nWHERE type in [\"A\", \"D\"]\nGROUP BY date, type\nORDER BY date ASC\n\n-- metric_col: total_sales\n-- date_col: date\n-- dimension_col: type\n\n-- Raw JSON plan:\n{\n  \"table\": \"sales\",\n  \"filters\": [\n    {\n      \"column\": \"date\",\n      \"op\": \"between\",\n      \"value\": [\n        \"2016-01-18\",\n        \"2017-08-15\"\n      ]\n    },\n    {\n      \"column\": \"type\",\n      \"op\": \"in\",\n      \"value\": [\n        \"A\",\n        \"D\"\n      ]\n    }\n  ],\n  \"group_by\": [\n    \"date\",\n    \"type\"\n  ],\n  \"aggregations\": [\n    {\n      \"column\": \"sales\",\n      \"agg\": \"sum\",\n      \"as\": \"total_sales\"\n    }\n  ],\n  \"sort_by\": [\n    {\n      \"column\": \"date\",\n      \"ascending\": true\n    }\n  ],\n  \"metric_col\": \"total_sales\",\n  \"date_col\": \"date\",\n  \"dimension_col\": \"type\",\n  \"explanation\": \"Aggregate daily sales for store types A and D separately, including a 4-week baseline before the analysis window for comparison.\",\n  \"context\": \"Normal daily sales for each store type are the typical sum of sales across all stores of that type, with patterns influenced by holidays, promotions, and economic factors.\"\n}",
+  "root_cause": {
+    "external_causes": [
+      {
+        "date_range": "2016-08-31",
+        "factor": "End of month / payday effect",
+        "explanation": "Sales on 2016-08-31 were significantly lower than expected (663.55 vs rolling mean 853.87). This may be due to a payday timing shift or reduced consumer spending at month-end.",
+        "confidence": "medium"
+      },
+      {
+        "date_range": "2016-09-14",
+        "factor": "Post-holiday slump or local event",
+        "explanation": "Sales on 2016-09-14 were low (680.03 vs rolling mean 878.34). This could be a residual effect from Ecuador's Independence Day (August 10) or a local event reducing foot traffic.",
+        "confidence": "low"
+      },
+      {
+        "date_range": "2016-11-19",
+        "factor": "Pre-Black Friday lull or economic factor",
+        "explanation": "Sales on 2016-11-19 were low (666.63 vs rolling mean 838.95). This may reflect a pre-holiday shopping lull or temporary economic downturn.",
+        "confidence": "medium"
+      },
+      {
+        "date_range": "2016-12-08",
+        "factor": "Holiday season anomaly",
+        "explanation": "Sales on 2016-12-08 were low (691.85 vs rolling mean 857.67). This could be due to a local holiday or event (e.g., Quito Foundation Day) reducing store activity.",
+        "confidence": "medium"
+      },
+      {
+        "date_range": "2017-01-22",
+        "factor": "Post-New Year spending surge",
+        "explanation": "Sales on 2017-01-22 were unusually high (1105.80 vs rolling mean 922.35). This may be due to post-holiday promotions or a payday effect.",
+        "confidence": "high"
+      },
+      {
+        "date_range": "2017-01-23",
+        "factor": "Post-surge correction or local event",
+        "explanation": "Sales on 2017-01-23 dropped sharply (678.99 vs rolling mean 933.39). This could be a correction after the previous day's spike or a local event reducing sales.",
+        "confidence": "medium"
+      },
+      {
+        "date_range": "2017-04-01",
+        "factor": "April Fools' Day or weekend effect",
+        "explanation": "Sales on 2017-04-01 were low (671.08 vs rolling mean 813.99). This may be due to a holiday or reduced shopping activity on a Saturday.",
+        "confidence": "low"
+      },
+      {
+        "date_range": "2017-04-27",
+        "factor": "Pre-May Day shopping or payday",
+        "explanation": "Sales on 2017-04-27 were high (1144.76 vs rolling mean 931.94). This could be due to pre-Labor Day (May 1) shopping or a payday effect.",
+        "confidence": "high"
+      },
+      {
+        "date_range": "2017-05-09",
+        "factor": "Post-holiday slump or economic factor",
+        "explanation": "Sales on 2017-05-09 were low (680.84 vs rolling mean 894.23). This may be a post-Labor Day slump or due to oil price fluctuations affecting consumer spending.",
+        "confidence": "medium"
+      },
+      {
+        "date_range": "2017-07-31",
+        "factor": "End of month / payday effect",
+        "explanation": "Sales on 2017-07-31 were high (1125.16 vs rolling mean 915.79). This could be due to a payday or end-of-month promotions boosting sales.",
+        "confidence": "high"
+      }
+    ],
+    "hypothesis": "Anomalies in store type A sales are primarily driven by payday cycles, holiday-related spending shifts, and economic factors such as oil price volatility, with low sales often occurring at month-end or post-holiday periods and high sales coinciding with paydays or pre-holiday surges."
+  },
+  "analysis_window": {
+    "start": "2016-02-15",
+    "end": "2017-08-15"
+  },
+  "anomaly_summary": "Detected 10 anomalies out of 548 data points (1.8%). Top affected groups: {'A': 10}. Methods: Modified Z-score (threshold=2.5), IQR (factor=1.5), Rolling (window=min(7, max(3, n//3)), std×2.0), vote≥2/3. (9 holiday/grace-period data points excluded.)"
+}

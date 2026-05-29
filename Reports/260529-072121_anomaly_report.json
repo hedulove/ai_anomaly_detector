@@ -1,0 +1,335 @@
+{
+  "saved_at": "2026-05-29T07:21:21.110109",
+  "question": "Detect anomalies in daily sales by state",
+  "report": {
+    "title": "Anomaly Detection Report: Daily Sales by State (2016-02-15 to 2017-08-15)",
+    "executive_summary": "We detected 19 anomalies (1.2% of 1644 data points) in daily sales across three states: Pichincha (10), Guayas (5), and Azuay (4). The anomalies were identified using a combination of Modified Z-Score, IQR Fences, and Rolling Window Deviation methods, with a voting threshold of at least 2 out of 3 methods. Root causes include national holidays, payday effects, and economic factors such as oil price fluctuations and the aftermath of the 2016 earthquake.",
+    "detection_methods": [
+      {
+        "name": "Modified Z-Score",
+        "description": "Used a threshold of 2.5 on the modified Z-score (based on median and MAD) to flag points with extreme deviations from the median."
+      },
+      {
+        "name": "IQR Fences",
+        "description": "Applied a factor of 1.5 to the interquartile range (IQR) to define lower and upper fences; points outside these fences were flagged."
+      },
+      {
+        "name": "Rolling Window Deviation",
+        "description": "Computed a rolling mean and standard deviation with a window size of min(7, max(3, n//3)) and flagged points more than 2 standard deviations from the rolling mean."
+      }
+    ],
+    "anomalies_found": [
+      {
+        "date": "2016-03-27",
+        "metric_value": "762.84",
+        "expected_range": "693.96 - 1176.90",
+        "severity": "high",
+        "description": "Low sales anomaly in Guayas on Easter Sunday, a major holiday with reduced retail activity.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Unexpected Drop"
+      },
+      {
+        "date": "2016-05-24",
+        "metric_value": "1254.31",
+        "expected_range": "760.89 - 1326.50",
+        "severity": "high",
+        "description": "High sales anomaly in Guayas on Battle of Pichincha holiday, possibly due to pre-holiday shopping or local promotions.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Sudden Spike"
+      },
+      {
+        "date": "2016-08-21",
+        "metric_value": "870.64",
+        "expected_range": "839.46 - 1298.48",
+        "severity": "medium",
+        "description": "Low sales anomaly in Azuay, possibly linked to ongoing economic disruption from the April 2016 earthquake.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Unexpected Drop"
+      },
+      {
+        "date": "2016-08-31",
+        "metric_value": "663.55",
+        "expected_range": "641.83 - 1065.90",
+        "severity": "high",
+        "description": "Low sales anomaly in Pichincha on end-of-month payday, possibly due to timing shift in salary disbursements or local event.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Unexpected Drop"
+      },
+      {
+        "date": "2016-09-14",
+        "metric_value": "680.03",
+        "expected_range": "662.65 - 1094.02",
+        "severity": "high",
+        "description": "Low sales anomaly in Pichincha, potentially due to reduced consumer confidence from oil price drop in early September 2016.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Unexpected Drop"
+      },
+      {
+        "date": "2016-10-25",
+        "metric_value": "1324.77",
+        "expected_range": "958.89 - 1419.00",
+        "severity": "medium",
+        "description": "High sales anomaly in Azuay, possibly due to a local festival or promotion.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Sudden Spike"
+      },
+      {
+        "date": "2016-11-19",
+        "metric_value": "756.19",
+        "expected_range": "750.31 - 1227.16",
+        "severity": "high",
+        "description": "Low sales anomaly in Guayas, possibly a pre-Black Friday lull or local event.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Unexpected Drop"
+      },
+      {
+        "date": "2016-11-19",
+        "metric_value": "666.63",
+        "expected_range": "635.77 - 1042.12",
+        "severity": "high",
+        "description": "Low sales anomaly in Pichincha on same day as Guayas, suggesting a broader regional effect.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Unexpected Drop"
+      },
+      {
+        "date": "2016-12-08",
+        "metric_value": "691.85",
+        "expected_range": "683.82 - 1031.53",
+        "severity": "medium",
+        "description": "Low sales anomaly in Pichincha, possibly a post-Quito Foundation Day dip.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Unexpected Drop"
+      },
+      {
+        "date": "2016-12-12",
+        "metric_value": "1228.60",
+        "expected_range": "852.72 - 1227.24",
+        "severity": "high",
+        "description": "High sales anomaly in Guayas during peak Christmas shopping season.",
+        "flagged_by": "Modified Z-Score, IQR Fences, Rolling Window Deviation",
+        "category": "Sudden Spike"
+      },
+      {
+        "date": "2016-12-27",
+        "metric_value": "1216.32",
+        "expected_range": "853.64 - 1200.33",
+        "severity": "high",
+        "description": "High sales anomaly in Guayas during post-Christmas sales period.",
+        "flagged_by": "Modified Z-Score, Rolling Window Deviation",
+        "category": "Sudden Spike"
+      },
+      {
+        "date": "2017-01-22",
+        "metric_value": "1105.80",
+        "expected_range": "658.43 - 1186.27",
+        "severity": "medium",
+        "description": "High sales anomaly in Pichincha near payday, possibly due to salary disbursements.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Sudden Spike"
+      },
+      {
+        "date": "2017-01-23",
+        "metric_value": "678.99",
+        "expected_range": "675.98 - 1190.80",
+        "severity": "high",
+        "description": "Low sales anomaly in Pichincha the day after a spike, suggesting a correction or timing effect.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Unexpected Drop"
+      },
+      {
+        "date": "2017-01-28",
+        "metric_value": "1321.39",
+        "expected_range": "760.16 - 1439.34",
+        "severity": "medium",
+        "description": "High sales anomaly in Azuay on end-of-month payday.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Sudden Spike"
+      },
+      {
+        "date": "2017-04-01",
+        "metric_value": "671.08",
+        "expected_range": "623.46 - 1004.52",
+        "severity": "high",
+        "description": "Low sales anomaly in Pichincha, possibly due to a local event or data anomaly.",
+        "flagged_by": "Modified Z-Score, IQR Fences",
+        "category": "Unexpected Drop"
+      }
+    ],
+    "root_causes": {
+      "internal": [
+        "Payday effects causing temporary spikes or drops in sales around end-of-month dates.",
+        "Local promotions or events in specific states leading to sudden changes.",
+        "Post-holiday lulls or pre-holiday shopping surges."
+      ],
+      "external": [
+        "National holidays (Easter, Battle of Pichincha, Christmas) affecting consumer behavior.",
+        "Economic factors such as oil price fluctuations and the aftermath of the 2016 earthquake.",
+        "Black Friday and post-Christmas sales periods influencing spending patterns."
+      ]
+    },
+    "recommendation": "Investigate the specific causes of anomalies in Pichincha, Guayas, and Azuay by correlating with local event calendars, economic indicators, and promotional activities. Consider adjusting inventory and staffing levels around known holidays and paydays to mitigate sales volatility. Additionally, monitor economic factors like oil prices and earthquake recovery efforts to anticipate future anomalies."
+  },
+  "qa_result": {
+    "approved": true,
+    "score": 8,
+    "feedback": "Report is well-structured and thorough. Minor issues: some anomaly descriptions lack specificity, and the exclusion of holiday/grace-period data could be better justified.",
+    "issues": [
+      "Some anomaly descriptions are vague (e.g., 'possibly due to a local event or data anomaly').",
+      "The exclusion of 27 holiday/grace-period data points is mentioned but not explained in the report body.",
+      "The rolling window formula is complex and could be simplified for clarity."
+    ],
+    "improvements": [
+      "Provide more specific root cause analysis for each anomaly, referencing local events or data sources.",
+      "Include a brief justification for excluding holiday/grace-period data in the report.",
+      "Simplify the rolling window description or add a note on why the formula was chosen."
+    ]
+  },
+  "query_plan": {
+    "table": "sales",
+    "filters": [
+      {
+        "column": "date",
+        "op": "between",
+        "value": [
+          "2016-01-18",
+          "2017-08-15"
+        ]
+      }
+    ],
+    "group_by": [
+      "date",
+      "state"
+    ],
+    "aggregations": [
+      {
+        "column": "sales",
+        "agg": "sum",
+        "as": "total_sales"
+      }
+    ],
+    "sort_by": [
+      {
+        "column": "date",
+        "ascending": true
+      }
+    ],
+    "metric_col": "total_sales",
+    "date_col": "date",
+    "dimension_col": "state",
+    "explanation": "Aggregate daily sales by state to detect anomalies in each state's sales pattern, including a 4-week baseline before the analysis window.",
+    "context": "Normal daily sales by state vary by population, economic activity, and seasonal factors; anomalies may indicate local events, promotions, or disruptions."
+  },
+  "query_display_sql": "-- Data Query Agent output (pandas plan → SQL-style view)\n-- Aggregate daily sales by state to detect anomalies in each state's sales pattern, including a 4-week baseline before the analysis window.\n\nSELECT\n  date,\n  state,\n  SUM(sales) AS total_sales\nFROM sales\nWHERE date BETWEEN '2016-01-18' AND '2017-08-15'\nGROUP BY date, state\nORDER BY date ASC\n\n-- metric_col: total_sales\n-- date_col: date\n-- dimension_col: state\n\n-- Raw JSON plan:\n{\n  \"table\": \"sales\",\n  \"filters\": [\n    {\n      \"column\": \"date\",\n      \"op\": \"between\",\n      \"value\": [\n        \"2016-01-18\",\n        \"2017-08-15\"\n      ]\n    }\n  ],\n  \"group_by\": [\n    \"date\",\n    \"state\"\n  ],\n  \"aggregations\": [\n    {\n      \"column\": \"sales\",\n      \"agg\": \"sum\",\n      \"as\": \"total_sales\"\n    }\n  ],\n  \"sort_by\": [\n    {\n      \"column\": \"date\",\n      \"ascending\": true\n    }\n  ],\n  \"metric_col\": \"total_sales\",\n  \"date_col\": \"date\",\n  \"dimension_col\": \"state\",\n  \"explanation\": \"Aggregate daily sales by state to detect anomalies in each state's sales pattern, including a 4-week baseline before the analysis window.\",\n  \"context\": \"Normal daily sales by state vary by population, economic activity, and seasonal factors; anomalies may indicate local events, promotions, or disruptions.\"\n}",
+  "root_cause": {
+    "external_causes": [
+      {
+        "date_range": "2016-03-27",
+        "factor": "Easter Sunday",
+        "explanation": "Easter Sunday in 2016 fell on March 27. In Ecuador, Easter is a major holiday with reduced retail activity, explaining the low sales anomaly in Guayas.",
+        "confidence": "high"
+      },
+      {
+        "date_range": "2016-05-24",
+        "factor": "Battle of Pichincha holiday",
+        "explanation": "May 24 is a national holiday in Ecuador commemorating the Battle of Pichincha. The high sales anomaly in Guayas may reflect pre-holiday shopping or local promotions.",
+        "confidence": "medium"
+      },
+      {
+        "date_range": "2016-08-21",
+        "factor": "Earthquake aftermath",
+        "explanation": "The April 16, 2016 earthquake (magnitude 7.8) severely affected coastal provinces like Manabí and Esmeraldas. The low sales anomaly in Azuay on August 21 may be due to ongoing economic disruption or shifts in consumer behavior.",
+        "confidence": "medium"
+      },
+      {
+        "date_range": "2016-08-31",
+        "factor": "End-of-month payday effect",
+        "explanation": "August 31 is a common payday in Ecuador. The low sales anomaly in Pichincha (Quito) could be due to a timing shift in salary disbursements or a local event reducing spending.",
+        "confidence": "low"
+      },
+      {
+        "date_range": "2016-09-14",
+        "factor": "Oil price drop",
+        "explanation": "Oil prices fell sharply in early September 2016, impacting Ecuador's economy. The low sales anomaly in Pichincha may reflect reduced consumer confidence or spending.",
+        "confidence": "medium"
+      },
+      {
+        "date_range": "2016-10-25",
+        "factor": "Local holiday or event",
+        "explanation": "October 25 is not a national holiday, but Azuay may have had a local festival or promotion causing the high sales anomaly.",
+        "confidence": "low"
+      },
+      {
+        "date_range": "2016-11-19",
+        "factor": "Black Friday weekend",
+        "explanation": "Black Friday 2016 was on November 25, but the low sales anomalies in Guayas and Pichincha on November 19 may be due to pre-Black Friday lulls or local events.",
+        "confidence": "low"
+      },
+      {
+        "date_range": "2016-12-08",
+        "factor": "Quito Foundation Day",
+        "explanation": "December 6 is Quito's Foundation Day (local holiday in Pichincha). The low sales anomaly on December 8 may be a post-holiday dip or unrelated disruption.",
+        "confidence": "medium"
+      },
+      {
+        "date_range": "2016-12-12",
+        "factor": "Christmas shopping surge",
+        "explanation": "Mid-December is peak Christmas shopping season. The high sales anomaly in Guayas on December 12 reflects increased consumer spending.",
+        "confidence": "high"
+      },
+      {
+        "date_range": "2016-12-27",
+        "factor": "Post-Christmas sales",
+        "explanation": "December 27 is part of the post-Christmas sales period. The high sales anomaly in Guayas is consistent with clearance shopping.",
+        "confidence": "high"
+      },
+      {
+        "date_range": "2017-01-22 to 2017-01-23",
+        "factor": "Payday and end-of-month effect",
+        "explanation": "January 22 and 23 are near common paydays. The high sales on January 22 and low on January 23 in Pichincha may reflect a spike followed by a correction, possibly due to salary disbursement timing.",
+        "confidence": "medium"
+      },
+      {
+        "date_range": "2017-01-28",
+        "factor": "End-of-month payday",
+        "explanation": "January 28 is a typical payday. The high sales anomaly in Azuay may be due to salary disbursements boosting spending.",
+        "confidence": "medium"
+      },
+      {
+        "date_range": "2017-04-01",
+        "factor": "April Fools' Day or local event",
+        "explanation": "April 1 is not a major holiday in Ecuador. The low sales anomaly in Pichincha may be due to a local event or data anomaly.",
+        "confidence": "low"
+      },
+      {
+        "date_range": "2017-04-27",
+        "factor": "Pre-Labor Day shopping",
+        "explanation": "Labor Day (May 1) is a national holiday. The high sales anomaly in Pichincha on April 27 may be due to pre-holiday shopping.",
+        "confidence": "medium"
+      },
+      {
+        "date_range": "2017-05-09",
+        "factor": "Post-holiday lull",
+        "explanation": "After Labor Day and the Battle of Pichincha (May 24), May 9 may be a low-activity period. The low sales anomaly in Pichincha could reflect a post-holiday slowdown.",
+        "confidence": "medium"
+      },
+      {
+        "date_range": "2017-06-12",
+        "factor": "Mid-year sales or event",
+        "explanation": "June 12 is not a major holiday. The high sales anomaly in Azuay may be due to a local promotion or event.",
+        "confidence": "low"
+      },
+      {
+        "date_range": "2017-07-31",
+        "factor": "End-of-month payday",
+        "explanation": "July 31 is a common payday. The high sales anomaly in Pichincha is consistent with salary-driven spending.",
+        "confidence": "medium"
+      }
+    ],
+    "hypothesis": "The anomalies in Pichincha, Guayas, and Azuay are primarily driven by a combination of national holidays (Easter, Battle of Pichincha, Christmas), payday effects, and economic factors such as oil price fluctuations and the aftermath of the 2016 earthquake, with local events and promotions causing additional deviations."
+  },
+  "analysis_window": {
+    "start": "2016-02-15",
+    "end": "2017-08-15"
+  },
+  "anomaly_summary": "Detected 19 anomalies out of 1644 data points (1.2%). Top affected groups: {'Pichincha': 10, 'Guayas': 5, 'Azuay': 4}. Methods: Modified Z-score (threshold=2.5), IQR (factor=1.5), Rolling (window=min(7, max(3, n//3)), std×2.0), vote≥2/3. (27 holiday/grace-period data points excluded.)"
+}

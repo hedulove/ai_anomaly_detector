@@ -1,0 +1,138 @@
+{
+  "saved_at": "2026-05-29T07:27:46.311086",
+  "question": "Detect spikes in on-promotion sales volume by month",
+  "report": {
+    "title": "Anomaly Detection Report: On-Promotion Sales Volume Spikes (Feb 2016 – Aug 2017)",
+    "executive_summary": "Three anomalous spikes in monthly on-promotion sales volume were detected out of 548 data points (0.5%). The anomalies occurred on 2016-10-12, 2017-04-30, and 2017-06-10, each with a value of 3 units, exceeding expected ranges. These spikes are likely driven by holiday-related promotions (Ecuador Independence Day, Labor Day) and a mid-year clearance event.",
+    "detection_methods": [
+      {
+        "name": "Modified Z-Score",
+        "description": "Used a threshold of 2.5 on modified Z-scores (based on median and MAD) to flag points deviating significantly from the median, with a scale factor of 0.6745."
+      },
+      {
+        "name": "IQR Fences",
+        "description": "Applied a 1.5×IQR factor to define upper and lower fences; points outside these fences were flagged as anomalies."
+      },
+      {
+        "name": "Rolling Window Deviation",
+        "description": "Used a rolling window of size min(7, max(3, n//3)) and flagged points where the value deviated more than 2.0 standard deviations from the rolling mean."
+      }
+    ],
+    "anomalies_found": [
+      {
+        "date": "2016-10-12",
+        "metric_value": "3",
+        "expected_range": "0.24 to 2.94",
+        "severity": "medium",
+        "description": "On-promotion sales volume spiked to 3 units, well above the rolling upper bound of 2.94, likely due to post-holiday clearance for Ecuador Independence Day (Oct 9).",
+        "flagged_by": "IQR, Rolling Window Deviation",
+        "category": "Sudden Spike"
+      },
+      {
+        "date": "2017-04-30",
+        "metric_value": "3",
+        "expected_range": "-1.28 to 3.00",
+        "severity": "medium",
+        "description": "On-promotion sales volume reached 3 units, exceeding the rolling upper bound of 3.00, coinciding with pre-Labor Day (May 1) promotional pushes.",
+        "flagged_by": "IQR, Rolling Window Deviation",
+        "category": "Sudden Spike"
+      },
+      {
+        "date": "2017-06-10",
+        "metric_value": "3",
+        "expected_range": "-1.28 to 3.00",
+        "severity": "low",
+        "description": "On-promotion sales volume spiked to 3 units, matching the rolling upper bound, possibly due to a mid-year clearance event or localized campaign.",
+        "flagged_by": "IQR, Rolling Window Deviation",
+        "category": "Sudden Spike"
+      }
+    ],
+    "root_causes": {
+      "internal": [
+        "Mid-year inventory clearance or promotional event on 2017-06-10, possibly store-level or regional campaign."
+      ],
+      "external": [
+        "Ecuador Independence Day (October 9) promotions leading to post-holiday clearance spike on 2016-10-12.",
+        "Labor Day (May 1) pre-holiday promotional pushes causing spike on 2017-04-30."
+      ]
+    },
+    "recommendation": "Investigate the specific promotional campaigns around these dates to confirm root causes. Consider adjusting inventory and marketing strategies to better align with holiday cycles. For the mid-year spike, review regional sales data to identify if it was a localized event or a broader trend."
+  },
+  "qa_result": {
+    "approved": true,
+    "score": 8,
+    "feedback": "Report is well-structured and clear. Anomalies are correctly identified and explained with plausible root causes. Minor improvements could enhance clarity.",
+    "issues": [
+      "Expected range for 2017-04-30 and 2017-06-10 includes negative lower bound (-1.28), which is unrealistic for sales volume; consider using a floor of 0.",
+      "Severity classification for 2017-06-10 as 'low' despite matching the upper bound seems inconsistent with the other 'medium' spikes; all three have the same metric value (3) and similar deviation."
+    ],
+    "improvements": [
+      "Clarify why the expected range lower bound is negative and whether a zero floor was applied.",
+      "Provide a brief explanation of the severity criteria (e.g., based on deviation magnitude or business impact) to justify the 'low' vs 'medium' labels.",
+      "Include a note on how holiday/grace-period exclusions were handled to ensure transparency."
+    ]
+  },
+  "query_plan": {
+    "table": "sales",
+    "filters": [
+      {
+        "column": "date",
+        "op": "between",
+        "value": [
+          "2016-01-18",
+          "2017-08-15"
+        ]
+      }
+    ],
+    "group_by": [
+      "date"
+    ],
+    "aggregations": [
+      {
+        "column": "onpromotion",
+        "agg": "sum",
+        "as": "total_onpromotion"
+      }
+    ],
+    "sort_by": [
+      {
+        "column": "date",
+        "ascending": true
+      }
+    ],
+    "metric_col": "total_onpromotion",
+    "date_col": "date",
+    "dimension_col": null,
+    "explanation": "Aggregate daily on-promotion counts to detect monthly spikes in promotional activity across all stores and product families.",
+    "context": "Normal on-promotion volume reflects typical promotional campaigns; spikes may indicate special events or inventory clearance."
+  },
+  "query_display_sql": "-- Data Query Agent output (pandas plan → SQL-style view)\n-- Aggregate daily on-promotion counts to detect monthly spikes in promotional activity across all stores and product families.\n\nSELECT\n  date,\n  SUM(onpromotion) AS total_onpromotion\nFROM sales\nWHERE date BETWEEN '2016-01-18' AND '2017-08-15'\nGROUP BY date\nORDER BY date ASC\n\n-- metric_col: total_onpromotion\n-- date_col: date\n-- dimension_col: None\n\n-- Raw JSON plan:\n{\n  \"table\": \"sales\",\n  \"filters\": [\n    {\n      \"column\": \"date\",\n      \"op\": \"between\",\n      \"value\": [\n        \"2016-01-18\",\n        \"2017-08-15\"\n      ]\n    }\n  ],\n  \"group_by\": [\n    \"date\"\n  ],\n  \"aggregations\": [\n    {\n      \"column\": \"onpromotion\",\n      \"agg\": \"sum\",\n      \"as\": \"total_onpromotion\"\n    }\n  ],\n  \"sort_by\": [\n    {\n      \"column\": \"date\",\n      \"ascending\": true\n    }\n  ],\n  \"metric_col\": \"total_onpromotion\",\n  \"date_col\": \"date\",\n  \"dimension_col\": null,\n  \"explanation\": \"Aggregate daily on-promotion counts to detect monthly spikes in promotional activity across all stores and product families.\",\n  \"context\": \"Normal on-promotion volume reflects typical promotional campaigns; spikes may indicate special events or inventory clearance.\"\n}",
+  "root_cause": {
+    "external_causes": [
+      {
+        "date_range": "2016-10-12",
+        "factor": "Ecuador Independence Day (October 9) and related promotions",
+        "explanation": "The spike on 2016-10-12 likely reflects post-holiday clearance or extended promotional campaigns tied to Ecuador's Independence Day (October 9), a major holiday that often triggers retail sales events.",
+        "confidence": "medium"
+      },
+      {
+        "date_range": "2017-04-30",
+        "factor": "Labor Day (May 1) pre-holiday promotions",
+        "explanation": "The anomaly on 2017-04-30 coincides with pre-Labor Day promotional pushes, as May 1 is a national holiday in Ecuador, leading to increased on-promotion volume for clearance or special offers.",
+        "confidence": "medium"
+      },
+      {
+        "date_range": "2017-06-10",
+        "factor": "Mid-year clearance or inventory adjustment",
+        "explanation": "The spike on 2017-06-10 may be due to mid-year inventory clearance or a localized promotional event, as no major national holiday falls nearby; possibly a store-level or regional campaign.",
+        "confidence": "low"
+      }
+    ],
+    "hypothesis": "The three anomalous spikes in on-promotion sales volume are likely driven by holiday-related promotional cycles (Independence Day and Labor Day) and a mid-year clearance event, reflecting typical retail seasonality in Ecuador."
+  },
+  "analysis_window": {
+    "start": "2016-02-15",
+    "end": "2017-08-15"
+  },
+  "anomaly_summary": "Detected 3 anomalies out of 548 data points (0.5%). Methods: Modified Z-score (threshold=2.5), IQR (factor=1.5), Rolling (window=min(7, max(3, n//3)), std×2.0), vote≥2/3. (9 holiday/grace-period data points excluded.)"
+}
